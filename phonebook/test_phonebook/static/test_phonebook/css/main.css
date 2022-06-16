@@ -1,0 +1,33 @@
+body header {
+    float: top;
+    background-color: rgb(80, 190, 209);
+    padding: 5%;
+    height: 5vh;
+    border-bottom: solid 5px #4d4d4d;
+    border-bottom-left-radius: 20%;
+    border-bottom-right-radius: 20%;
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+body main{
+    background: rgb(186, 199, 186);
+    background-image: url(https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F37%2F9f%2F3a%2F379f3a6c44f6bfc631d26f08d079e8e4.png&f=1&nofb=1);
+    background-size: cover;
+    height: 55vh;
+}
+
+body footer {
+    float: bottom;
+    background-color: rgb(153, 141, 129);
+    padding: 5%;
+    height: 5vh;
+    border-top: solid 5px #4d4d4d;
+    border-top-left-radius: 20%;
+    border-top-right-radius: 20%;
+    text-align: right;
+    font-size: 15px;
+    font-family: 'Courier New', Courier, monospace;
+}
