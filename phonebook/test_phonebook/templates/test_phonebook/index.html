@@ -10,6 +10,10 @@
 
 {%block main%}
     Здесь когда-нибудь будут номера ебанентов
+    {{key2}}
+    {%for elem in key1%}
+    <p>{{ elem }}</p>
+    {%endfor%}
 {%endblock%}
 
 {%block footer%}
