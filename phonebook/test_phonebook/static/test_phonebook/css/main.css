@@ -19,6 +19,15 @@ body main{
     height: 55vh;
 }
 
+body main form{
+    margin: 0 auto;
+    width: 500px;
+}
+
+body main button{
+    margin-left: 46%;
+}
+
 body footer {
     float: bottom;
     background-color: rgb(153, 141, 129);

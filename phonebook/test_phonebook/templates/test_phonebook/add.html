@@ -1,17 +1,21 @@
 {% extends 'test_phonebook/main.html' %}
 
 {% block title %}
-    Телефонный справочник
+    Добавить абонента
 {% endblock %}
 
 {% block header %}
-    Телефонный справочник
+    Добавить абонента
 {% endblock %}
 
 {%block main%}
-    {%for elem in key%}
-    <p>{{ elem }}</p>
-    {%endfor%}
+    <form method='post' action="">
+        {% csrf_token %}
+        {{peeps}}<br>
+        {{names}}<br>
+        {{patronymics}}<br>
+    </form>
+    <button class="btn btn-success" type="submit">Добавить запись</button>
 {%endblock%}
 
 {%block footer%}
