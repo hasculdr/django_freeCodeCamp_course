@@ -1,0 +1,19 @@
+{% extends 'home/base_bootstrap.html' %}
+{% block content %}
+<h1>Список автомобилей</h1>
+{% if autos %}
+    <ul>
+        {% for auto in autos %}
+        <li>{{auto.nickname}}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>В базе нет записей</p>
+{% endif %}
+<p>
+<a href="{% url 'autos:add_auto' %}">Добавить ведро</a>
+</p>
+<p>
+<a href="{% url 'autos:manufacturers_page' %}">Просмотр бракоделов</a> ({{ counter }}) | <a href="{% url 'autos:add_manufacturer' %}">Добавить бракодела</a>
+</p>
+{% endblock %}

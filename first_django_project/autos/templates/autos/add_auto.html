@@ -1,0 +1,19 @@
+{% extends 'home/base_bootstrap.html' %}
+{% block content %}
+<br>
+<p><input placeholder="Nickname"></p>
+<p><input placeholder="Mileage"></p>
+<p><input placeholder="Comment"></p>
+<p>
+    <select name="Manufacturer">
+    {% if manufacturers %}
+        {% for manufacturer in manufacturers %}
+            <option value="{{manufacturer.name}}">{{manufacturer.name}}</option>
+        {% endfor %}
+    {% else %}
+        <option value="Не получилось">-----</option>
+    {% endif %}
+    </select>
+</p>
+
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'home/base_bootstrap.html' %}
+{% block content %}
+<h1>Список бракоделов</h1>
+{% if manufacturers %}
+    <ul>
+        {% for manufacturer in manufacturers %}
+        <li>{{manufacturer.name}} (<a href="#">Обновить</a> | <a href="#">Удалить</a>)</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>В базе нет записей</p>
+{% endif %}
+<p>
+<a href="{% url 'autos:add_manufacturer' %}">Добавить бракодела</a>
+</p>
+<p>
+<a href="{% url 'autos:main_page' %}">Назад к списку машин</a>
+</p>
+{% endblock %}
