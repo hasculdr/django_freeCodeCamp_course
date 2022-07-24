@@ -1,6 +1,11 @@
 {% extends 'home/base_bootstrap.html' %}
 {% block content %}
 <br>
-<p><input placeholder="Производитель"></p>
-<p><input type="submit" value="submit"> <input type="submit" value="cancel"></p>
+<form name="manufacturer" method="post">
+    {% csrf_token %}
+    <p><input placeholder="Производитель" type="text" name="manufacturer"></p>
+    <p>
+        <input type="submit" value="Добавить">
+        <input type="submit" value="Отмена" name="cancel">
+    </p>
 {% endblock %}

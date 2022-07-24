@@ -19,7 +19,6 @@ class PeepsForm(ModelForm):
                 }
             )
         }
-        label=False
 
 class NamesForm(ModelForm):
     class Meta:
