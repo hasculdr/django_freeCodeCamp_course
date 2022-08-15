@@ -7,6 +7,7 @@ class Manufacturer(models.Model):
     def __str__(self):
         return self.name
 
+
 class Auto(models.Model):
     nickname = models.CharField(("Nickname"), max_length=20)
     mileage = models.IntegerField(("Milleage"), default=0)

@@ -1,0 +1,52 @@
+{% extends 'home/base_bootstrap.html' %}
+{% block content %}
+<br>
+{# Этот кусок для редактирования существующей в базе записи #}
+{% if edit %}
+<form name="auto" method="post">
+    {% csrf_token %}
+    <p><input placeholder="Nickname" type="text" name="nickname" value="{{auto.nickname}}"></p>
+    <p><input placeholder="Mileage" type="int" name="mileage" value="{{auto.maleage}}"></p>
+    <p><input placeholder="Comment" type="text" name="comment" value="{{auto.comments}}"></p>
+    <p>
+        <select name="manufacturer">
+        {% if manufacturers %}
+            {% for manufacturer in manufacturers %}
+                <option value="{{manufacturer.name}}">{{manufacturer.name}}</option>
+            {% endfor %}
+        {% else %}
+            <option value="-----">-----</option>
+        {% endif %}
+        <option selected="{{chosen_man.name}}">{{chosen_man.name}}</option>
+        </select>
+    </p>
+    <p>
+        <input type="submit" value="Обновить">
+        <input type="submit" value="Отмена" name="cancel">
+    </p>
+</form>
+{# Этот кусок для создания новой записи в базе #}
+{% else %}
+<form name="auto" method="post">
+    {% csrf_token %}
+    <p><input placeholder="Nickname" type="text" name="nickname"></p>
+    <p><input placeholder="Mileage" type="int" name="mileage"></p>
+    <p><input placeholder="Comment" type="text" name="comment"></p>
+    <p>
+        <select name="manufacturer">
+        {% if manufacturers %}
+            {% for manufacturer in manufacturers %}
+                <option value="{{manufacturer.name}}">{{manufacturer.name}}</option>
+            {% endfor %}
+        {% else %}
+            <option value="------">-----</option>
+        {% endif %}
+        </select>
+    </p>
+    <p>
+        <input type="submit" value="Добавить">
+        <input type="submit" value="Отмена" name="cancel">
+    </p>
+</form>
+{% endif %}
+{% endblock %}

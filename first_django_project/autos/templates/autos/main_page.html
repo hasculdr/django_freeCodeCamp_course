@@ -4,7 +4,7 @@
 {% if autos %}
     <ul>
         {% for auto in autos %}
-        <li>{{auto.nickname}}</li>
+        <li>{{auto.nickname}} ({{auto.auto}}) (<a href="{% url 'autos:edit_auto' auto.id %}">Обновить</a> | <a href="{%  url 'autos:delete_auto' auto.id %}">Удалить</a>)</li>
         {% endfor %}
     </ul>
 {% else %}
