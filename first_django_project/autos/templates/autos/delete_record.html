@@ -1,0 +1,12 @@
+{% extends 'home/base_bootstrap.html' %}
+{% block content %}
+<h1>Удаление автомобиля</h1>
+<p>Вы собираетесь удалить автомобиль "{{auto.nickname}}"</p>
+<p>
+<form name="auto" method="post">
+   {% csrf_token %}
+    <input type="submit" value="Удалить" name="delete">
+    <input type="submit" value="Отмена" name="cancel">
+</form>
+</p>
+{% endblock %}

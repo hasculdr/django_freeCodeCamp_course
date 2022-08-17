@@ -79,9 +79,17 @@ def auto_edit_form(request, pk):
 
 
 def auto_delete(request, pk):
-    # шаблон
-    auto = Auto.objects.filter(pk=pk).delete()
-    return redirect(reverse_lazy('autos:main_page'))
+    auto = Auto.objects.filter(pk=pk).values() # это объект <QuerySet [{'id': 8, 'nickname': 'Ведро', 'mileage': 20, 'comments': 'с болтами', 'auto_id': 10}]>
+    context = {'auto': auto[0]}
+    if request.method == 'POST': # нажатие кнопок в форме на странице подтверждения
+        if request.POST.get('delete'):
+            Auto.objects.filter(pk=pk).delete()
+            return  redirect(reverse_lazy('autos:main_page'))
+        elif request.POST.get('cancel'):
+            return  redirect(reverse_lazy('autos:main_page'))
+    else: # нажатие на ссылку "удалить", рендер страницы с подтверждением
+        return render(request, 'autos/delete_record.html', context)
+
 
 def manufacturer_add_form(request):
     if request.method == 'POST':  # нажатие на кнопку submit
