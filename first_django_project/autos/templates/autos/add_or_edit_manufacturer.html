@@ -1,6 +1,15 @@
 {% extends 'home/base_bootstrap.html' %}
 {% block content %}
 <br>
+{% if edit %}
+<form name="manufacturer" method="post">
+    {% csrf_token %}
+    <p><input placeholder="Производитель" type="text" name="manufacturer", value="{{manufacturer_name}}"></p>
+    <p>
+        <input type="submit" value="Обновить">
+        <input type="submit" value="Отмена" name="cancel">
+    </p>
+{% else %}
 <form name="manufacturer" method="post">
     {% csrf_token %}
     <p><input placeholder="Производитель" type="text" name="manufacturer"></p>
@@ -8,4 +17,5 @@
         <input type="submit" value="Добавить">
         <input type="submit" value="Отмена" name="cancel">
     </p>
+{% endif %}
 {% endblock %}

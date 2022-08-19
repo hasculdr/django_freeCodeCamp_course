@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from .models import Manufacturer, Auto
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 def main_page(request):
@@ -102,3 +103,37 @@ def manufacturer_add_form(request):
             return redirect(reverse_lazy('autos:main_page'))
     else:
         return render(request, 'autos/add_manufacturer.html')
+
+
+def manufacturer_edit_form(request, pk):
+    manufacturer = Manufacturer.objects.filter(pk=pk).values()
+    dict_from_quiery_set = manufacturer[0]
+    context = {
+        'manufacturer_name': dict_from_quiery_set['name'],
+        'manufacturer_id': dict_from_quiery_set['id'],
+        'edit': True,
+    }
+    if request.method == 'POST':
+        if request.POST.get('manufacturer'):
+            post = Manufacturer()
+            post.name = request.POST.get('manufacturer')
+            post.id = dict_from_quiery_set['id']
+            post.save()
+            return redirect(reverse_lazy('autos:manufacturers_page'))
+        elif request.POST.get('cancel'):
+            return redirect(reverse_lazy('autos:manufacturers_page'))
+    else:
+        return render(request, 'autos/add_or_edit_manufacturer.html', context)
+
+
+def manufacturer_delete_form(request, pk):
+    manufacturer = Manufacturer.objects.filter(pk=pk).values()
+    context = {'manufacturer': manufacturer[0]}
+    if request.method == 'POST':
+        if request.POST.get('delete'):
+            Manufacturer.objects.filter(pk=pk).delete()
+            return redirect(reverse_lazy('autos:manufacturers_page'))
+        elif request.POST.get('cancel'):
+            return redirect(reverse_lazy('autos:manufacturers_page'))
+    else:
+        return render(request, 'autos/delete_manufacturer.html', context)
