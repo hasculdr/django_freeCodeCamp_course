@@ -1,17 +1,17 @@
 {% extends 'home/base_bootstrap.html' %}
 {% block content %}
 <h1>Список бракоделов</h1>
-{% if manufacturers %}
+{% if makers %}
     <ul>
-        {% for manufacturer in manufacturers %}
-        <li>{{manufacturer.name}} (<a href="{% url 'autos:edit_manufacturer' manufacturer.id %}">Обновить</a> | <a href="{% url 'autos:delete_manufacturer' manufacturer.id %}">Удалить</a>)</li>
+        {% for maker in makers %}
+        <li>{{maker.name}} (<a href="{% url 'autos:edit_maker' maker.id %}">Обновить</a> | <a href="{% url 'autos:delete_maker' maker.id %}">Удалить</a>)</li>
         {% endfor %}
     </ul>
 {% else %}
     <p>В базе нет записей</p>
 {% endif %}
 <p>
-<a href="{% url 'autos:add_manufacturer' %}">Добавить бракодела</a>
+<a href="{% url 'autos:add_maker' %}">Добавить бракодела</a>
 </p>
 <p>
 <a href="{% url 'autos:main_page' %}">Назад к списку машин</a>

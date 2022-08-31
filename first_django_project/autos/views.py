@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin # для авторизации
+from django.contrib.auth.mixins import LoginRequiredMixin  # для авторизации
 from django.views import View
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+# from django.views.generic.edit import CreateView, UpdateView, DeleteView  # не использую здесь
 
 from .models import Manufacturer, Auto
 from .forms import MakerForm
@@ -41,8 +41,8 @@ def manufacturers_page(request):
 
 class MakersPage(LoginRequiredMixin, View):
     def get(self, request):
-        manufacturers = Manufacturer.objects.all()
-        context = {'manufacturers': manufacturers}
+        makers = Manufacturer.objects.all()
+        context = {'makers': makers}
         return render(request, 'autos/manufacturers_page.html', context)
 
 
@@ -66,19 +66,96 @@ class CreateMaker(LoginRequiredMixin, View):
     template = 'autos/add_or_edit_manufacturer.html'
     success_url = reverse_lazy('autos:main_page')
 
-    def get(self, request):
+    def get(self, request):  # открытие страницы с пустой формой
         form = MakerForm()
         context = {'form': form}
         return render(request, self.template, context)
 
-    def post(self, request):
+    def post(self, request):  # отправка на сервер заполненной формы
         form = MakerForm(request.POST)
         if form.is_valid():
-            make = form.save()
+            form.save()
             return redirect(self.success_url)
         else:
             context = {'form': form}
             return render(request, self.template, context)
+
+
+"""
+def manufacturer_edit_form(request, pk):
+    manufacturer = Manufacturer.objects.filter(pk=pk).values()
+    dict_from_quiery_set = manufacturer[0]
+    context = {
+        'manufacturer_name': dict_from_quiery_set['name'],
+        'manufacturer_id': dict_from_quiery_set['id'],
+        'edit': True,
+    }
+    if request.method == 'POST':
+        if request.POST.get('manufacturer'):
+            post = Manufacturer()
+            post.name = request.POST.get('manufacturer')
+            post.id = dict_from_quiery_set['id']
+            post.save()
+            return redirect(reverse_lazy('autos:manufacturers_page'))
+        elif request.POST.get('cancel'):
+            return redirect(reverse_lazy('autos:manufacturers_page'))
+    else:
+        return render(request, 'autos/add_or_edit_manufacturer.html', context)
+
+"""
+
+
+class UpdateMaker(LoginRequiredMixin, View):
+    model = Manufacturer  # переменная для работы с таблицей 'Manufacturer' (models.py)
+    template = 'autos/add_or_edit_manufacturer.html'
+    success_url = reverse_lazy('autos:main_page')
+
+    def get(self, request, pk):
+        maker = get_object_or_404(self.model, pk=pk)  # аналог запроса Manufacturer.objects.filter(pk=pk).values()
+        form = MakerForm(instance=maker)  # объект с html-шаблоном на основе запроса выше
+        context = {'form': form}
+        return render(request, self.template, context)
+
+    def post(self, request, pk):
+        maker = get_object_or_404(self.model, pk=pk)
+        form = MakerForm(request.POST, instance=maker)
+        if form.is_valid():
+            form.save()
+            return redirect(self.success_url)
+        else:
+            context = {'form': form}
+            return render(request, self.template, context)
+
+
+"""
+def manufacturer_delete_form(request, pk):
+    manufacturer = Manufacturer.objects.filter(pk=pk).values()
+    context = {'manufacturer': manufacturer[0]}
+    if request.method == 'POST':
+        if request.POST.get('delete'):
+            Manufacturer.objects.filter(pk=pk).delete()
+            return redirect(reverse_lazy('autos:manufacturers_page'))
+        elif request.POST.get('cancel'):
+            return redirect(reverse_lazy('autos:manufacturers_page'))
+    else:
+        return render(request, 'autos/delete_manufacturer.html', context)
+"""
+
+
+class DeleteMaker(LoginRequiredMixin, View):
+    model = Manufacturer
+    template = 'autos/delete_manufacturer.html'
+    success_url = reverse_lazy('autos:main_page')
+
+    def get(self, request, pk):
+        maker = get_object_or_404(self.model, pk=pk)
+        context = {'maker': maker}
+        return render(request, self.template, context)
+
+    def post(self, request, pk):
+        maker = get_object_or_404(self.model, pk=pk)
+        maker.delete()
+        return redirect(self.success_url)
 
 
 def auto_add_form(request):
@@ -149,37 +226,3 @@ def auto_delete(request, pk):
             return  redirect(reverse_lazy('autos:main_page'))
     else: # нажатие на ссылку "удалить", рендер страницы с подтверждением
         return render(request, 'autos/delete_record.html', context)
-
-
-def manufacturer_edit_form(request, pk):
-    manufacturer = Manufacturer.objects.filter(pk=pk).values()
-    dict_from_quiery_set = manufacturer[0]
-    context = {
-        'manufacturer_name': dict_from_quiery_set['name'],
-        'manufacturer_id': dict_from_quiery_set['id'],
-        'edit': True,
-    }
-    if request.method == 'POST':
-        if request.POST.get('manufacturer'):
-            post = Manufacturer()
-            post.name = request.POST.get('manufacturer')
-            post.id = dict_from_quiery_set['id']
-            post.save()
-            return redirect(reverse_lazy('autos:manufacturers_page'))
-        elif request.POST.get('cancel'):
-            return redirect(reverse_lazy('autos:manufacturers_page'))
-    else:
-        return render(request, 'autos/add_or_edit_manufacturer.html', context)
-
-
-def manufacturer_delete_form(request, pk):
-    manufacturer = Manufacturer.objects.filter(pk=pk).values()
-    context = {'manufacturer': manufacturer[0]}
-    if request.method == 'POST':
-        if request.POST.get('delete'):
-            Manufacturer.objects.filter(pk=pk).delete()
-            return redirect(reverse_lazy('autos:manufacturers_page'))
-        elif request.POST.get('cancel'):
-            return redirect(reverse_lazy('autos:manufacturers_page'))
-    else:
-        return render(request, 'autos/delete_manufacturer.html', context)
