@@ -1,5 +1,6 @@
 {% extends 'home/base_bootstrap.html' %}
 {% block content %}
+<!--
 <br>
 {# Этот кусок для редактирования существующей в базе записи #}
 {% if edit %}
@@ -49,4 +50,13 @@
     </p>
 </form>
 {% endif %}
+-->
+<form action="" method="post">
+    {% csrf_token %}
+    <br>
+    <table>{{ form.as_table }}</table>
+    <br>
+    <input type="submit" value="Добавить">
+    <input type="submit" onclick="window.location='{% url 'autos:main_page' %}'; return false;" value="Отмена">
+</form>
 {% endblock %}

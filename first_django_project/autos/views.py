@@ -5,7 +5,7 @@ from django.views import View
 # from django.views.generic.edit import CreateView, UpdateView, DeleteView  # не использую здесь
 
 from .models import Manufacturer, Auto
-from .forms import MakerForm
+from .forms import MakerForm, AutoForm
 
 """
 def main_page(request):
@@ -158,6 +158,7 @@ class DeleteMaker(LoginRequiredMixin, View):
         return redirect(self.success_url)
 
 
+"""
 def auto_add_form(request):
     manufacturers = Manufacturer.objects.all()
     context = {'manufacturers': manufacturers}
@@ -182,8 +183,30 @@ def auto_add_form(request):
             return redirect(reverse_lazy('autos:main_page'))
     elif request.method == 'GET':
         return render(request, 'autos/add_or_edit_auto.html', context)
+"""
 
 
+class CreateAuto(LoginRequiredMixin, View):
+    template = 'autos/add_or_edit_auto.html'
+    success_url = reverse_lazy('autos:main_page')
+
+    def get(self, request):
+        form = AutoForm()
+        context = {'form': form}
+        return render(request, self.template, context)
+
+    def post(self, request):
+        form = AutoForm(request.POST)
+        context = {'form': form}
+        if form.is_valid():
+            form.save()
+            return redirect(self.success_url)
+        else:
+            context = {'form': form}
+            return render(request, self.template, context)
+
+
+"""
 def auto_edit_form(request, pk):
     auto = Auto.objects.filter(pk=pk).values()
     chosen_man = Manufacturer.objects.filter(pk=auto[0]['auto_id']).values()
@@ -213,8 +236,32 @@ def auto_edit_form(request, pk):
             return redirect(reverse_lazy('autos:main_page'))
     elif request.method == 'GET':
         return render(request, 'autos/add_or_edit_auto.html', context)
+"""
 
 
+class UpdateAuto(LoginRequiredMixin, View):
+    model = Auto
+    template = 'autos/add_or_edit_auto.html'
+    success_url = reverse_lazy('autos:main_page')
+
+    def get(self, request, pk):
+        auto = get_object_or_404(self.model, pk=pk)
+        form = AutoForm(instance=auto)
+        context = {'form': form}
+        return render(request, self.template, context)
+
+    def post(self, request, pk):
+        auto = get_object_or_404(self.model, pk=pk)
+        form = AutoForm(request.POST, instance=auto)
+        if form.is_valid():
+            form.save()
+            return redirect(self.success_url)
+        else:
+            context = {'form': form}
+            return render(request, self.template, context)
+
+
+"""
 def auto_delete(request, pk):
     auto = Auto.objects.filter(pk=pk).values() # это объект <QuerySet [{'id': 8, 'nickname': 'Ведро', 'mileage': 20, 'comments': 'с болтами', 'auto_id': 10}]>
     context = {'auto': auto[0]}
@@ -226,3 +273,20 @@ def auto_delete(request, pk):
             return  redirect(reverse_lazy('autos:main_page'))
     else: # нажатие на ссылку "удалить", рендер страницы с подтверждением
         return render(request, 'autos/delete_record.html', context)
+"""
+
+
+class DeleteAuto(LoginRequiredMixin, View):
+    model = Auto
+    template = 'autos/delete_auto.html'
+    success_url = reverse_lazy('autos:main_page')
+
+    def get(self, request, pk):
+        auto = get_object_or_404(self.model, pk=pk)
+        context = {'auto': auto}
+        return render(request, self.template, context)
+
+    def post(self, request, pk):
+        auto = get_object_or_404(self.model, pk=pk)
+        auto.delete()
+        return redirect(self.success_url)

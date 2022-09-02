@@ -1,5 +1,6 @@
 {% extends 'home/base_bootstrap.html' %}
 {% block content %}
+<!--
 <h1>Удаление автомобиля</h1>
 <p>Вы собираетесь удалить автомобиль "{{auto.nickname}}"</p>
 <p>
@@ -7,6 +8,16 @@
    {% csrf_token %}
     <input type="submit" value="Удалить" name="delete">
     <input type="submit" value="Отмена" name="cancel">
+</form>
+</p>
+-->
+<h1>Удаление автомобиля</h1>
+<p>Вы собираетесь удалить автомобиль "{{auto.nickname}}"</p>
+<p>
+<form action="" method="POST">
+   {% csrf_token %}
+   <input type="submit" value="Удалить">
+   <input type="submit" onclick="window.location='{% url 'autos:main_page' %}'; return false;" value="Отмена">
 </form>
 </p>
 {% endblock %}
