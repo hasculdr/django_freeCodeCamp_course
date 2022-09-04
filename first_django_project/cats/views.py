@@ -29,7 +29,11 @@ class CreateBreed(LoginRequiredMixin, View):
 
     def get(self, request):
         form = BreedForm()
-        context = {'form': form}
+        context = {
+            'form': form,
+            'header': 'Добавление породы',
+            'button': 'Добавить',
+            }
         return render(request, self.template, context)
 
     def post(self, request):
@@ -38,7 +42,11 @@ class CreateBreed(LoginRequiredMixin, View):
             form.save()
             return redirect(self.success_url)
         else:
-            context = {'form': form}
+            context = {
+                'form': form,
+                'header': 'Добавление породы',
+                'button': 'Добавить',
+            }
             return render (request, self.template, context)
 
 class UpdateBreed(LoginRequiredMixin, View):
@@ -49,7 +57,11 @@ class UpdateBreed(LoginRequiredMixin, View):
     def get(self, request, pk):
         breed = get_object_or_404(self.model, pk=pk)
         form = BreedForm(instance=breed)
-        context = {'form': form}
+        context = {
+            'form': form,
+            'header': 'Обновление породы',
+            'button': 'Обновить',
+            }
         return render(request, self.template, context)
 
     def post(self, request, pk):
@@ -59,7 +71,11 @@ class UpdateBreed(LoginRequiredMixin, View):
             form.save()
             return redirect(self.success_url)
         else:
-            context = {'form': form}
+            context = {
+                'form': form,
+                'header': 'Обновление породы',
+                'button': 'Обновить',
+            }
             return render(request, self.template, context)
 
 class DeleteBreed(LoginRequiredMixin, View):
@@ -83,7 +99,11 @@ class CreateCat(LoginRequiredMixin, View):
 
     def get(self, request):
         form = CatForm
-        context = {'form': form}
+        context = {
+            'form': form,
+            'header': 'Добавление кошарика',
+            'button': 'Добавить',
+        }
         return render(request, self.template, context)
     
     def post(self, request):
@@ -92,7 +112,11 @@ class CreateCat(LoginRequiredMixin, View):
             form.save()
             return redirect(self.success_url)
         else:
-            context = {'form': form}
+            context = {
+                'form': form,
+                'header': 'Добавление кошарика',
+                'button': 'Добавить',
+            }
             return render(request, self.template, context)
 
 class UpdateCat(LoginRequiredMixin, View):
@@ -103,7 +127,11 @@ class UpdateCat(LoginRequiredMixin, View):
     def get(self, request, pk):
         cat = get_object_or_404(self.model, pk=pk)
         form = CatForm(instance=cat)
-        context = {'form': form}
+        context = {
+            'form': form,
+            'header': 'Обновление кошарика',
+            'button': 'Обновить',
+        }
         return render(request, self.template, context)
 
     def post(self, request, pk):
@@ -113,7 +141,11 @@ class UpdateCat(LoginRequiredMixin, View):
             form.save()
             return redirect(self.success_url)
         else:
-            context = {'form': form}
+            context = {
+                'form': form,
+                'header': 'Обновление кошарика',
+                'button': 'Обновить',
+            }
             return render(request, self.template, context)
 
 class DeleteCat(LoginRequiredMixin, View):
