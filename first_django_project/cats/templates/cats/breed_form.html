@@ -1,0 +1,12 @@
+{% extends 'home/base_bootstrap.html' %}
+{% block content %}
+<h1>Добавление породы</h1>
+<form action="" method="post">
+    {% csrf_token %}
+    <p>{{ form.as_table }}</p>
+    <p>
+    <input type="submit" value="Добавить">
+    <input type="submit" onclick="window.location='{% url 'cats:cats_page' %}'; return false;" value="Отмена">
+    </p>
+</form>
+{% endblock %}

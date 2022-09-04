@@ -1,0 +1,12 @@
+{% extends 'home/base_bootstrap.html' %}
+{% block content %}
+<h1>Удаление кошарика</h1>
+<p>Удалить из базы котейку "{{ cat }}"?</p>
+    <form action="" method="post">
+        {% csrf_token %}
+        <p>
+            <input type="submit" value="Удалить">
+            <input type="submit" onclick="window.location='{% url 'cats:cats_page' %}'; return false;" value="Отмена">
+        </p>
+    </form>
+{% endblock %}

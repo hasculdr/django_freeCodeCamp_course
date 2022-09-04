@@ -117,7 +117,7 @@ class UpdateMaker(LoginRequiredMixin, View):
         return render(request, self.template, context)
 
     def post(self, request, pk):
-        maker = get_object_or_404(self.model, pk=pk)
+        maker = get_object_or_404(self.model, pk=pk) # для случая с неправильными данными в форме
         form = MakerForm(request.POST, instance=maker)
         if form.is_valid():
             form.save()

@@ -1,0 +1,16 @@
+{% extends 'home/base_bootstrap.html' %}
+{% block content %}
+<h1>Кошарики</h1>
+{% if cats %}
+    <ul>
+        {% for record in cats %}
+            <li>{{ record.nickname }} ({{ record.breed }}) (<a href="{% url 'cats:update_cat' record.id %}">Обновить</a>) | <a href="{% url 'cats:delete_cat' record.id %}">Удалить</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>В базе нет ни одного кошарика :(</p>
+    <p>Перед тем как добавить кошарика, должна быть создана хотя бы одна порода</p>
+{% endif %}
+<p><a href="{% url 'cats:create_cat' %}">Добавить кисулю</a></p>
+<p><a href="{% url 'cats:breeds_page' %}">Посмохтреть породы ({{breeds_counter}})</a> | <a href="{% url 'cats:breeds_page' %}">Добавить породу</a></p>
+{% endblock %}
