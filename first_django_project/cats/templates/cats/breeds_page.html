@@ -3,7 +3,7 @@
 <h1>Породы</h1>
 {% if breeds %}
     <p>{% for record in breeds %}
-        <li>{{ record.name }} (<a href="{% url 'cats:update_breed' record.id %}">Обновить</a>) | (<a href="{% url 'cats:delete_breed' record.id %}">Удалить</a>)</li>
+        <li>{{ record.name }} (<a href="{% url 'cats:update_breed' record.id %}">Обновить</a> | <a href="{% url 'cats:delete_breed' record.id %}">Удалить</a>)</li>
     {% endfor %}</p>
 {% else %}
     <p>В базе нет ни одной породы</p>

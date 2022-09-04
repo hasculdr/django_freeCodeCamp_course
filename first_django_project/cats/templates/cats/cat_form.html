@@ -1,11 +1,11 @@
 {% extends 'home/base_bootstrap.html' %}
 {% block content %}
-<h1>Добавление кошарика</h1>
+<h1>{{ header }}</h1>
 <form action="" method="post">
     {% csrf_token %}
     <table>{{ form.as_table }}</table>
     <p>
-        <input type="submit" value="Добавить">
+        <input type="submit" value="{{ button }}">
         <input type="submit" onclick="window.location='{% url 'cats:cats_page' %}'; return false;" value="Отмена">
     </p>
 </form>
