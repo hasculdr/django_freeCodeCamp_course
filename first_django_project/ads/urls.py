@@ -5,6 +5,7 @@ app_name='ads'
 urlpatterns = [
     path('', views.AdListView.as_view(), name='all'),
     path('ad/<int:pk>', views.AdDetailView.as_view(), name='ad_detail'),
+    path('ad_picture/<int:pk>', views.stream_file, name='ad_picture'),
     path('ad/create', 
         views.AdCreateView.as_view(success_url=reverse_lazy('ads:all')), name='ad_create'),
     path('ad/<int:pk>/update', 
