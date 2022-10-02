@@ -3,4 +3,5 @@ __pycache__
 *.sqlite3
 tutorial/*
 .python-version
+.vscode
 first_django_project/mysite/github_settings.py
