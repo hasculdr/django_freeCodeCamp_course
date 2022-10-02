@@ -2,4 +2,5 @@ __pycache__
 *.swp
 *.sqlite3
 tutorial/*
-./.python-version
+.python-version
+first_django_project/mysite/github_settings.py

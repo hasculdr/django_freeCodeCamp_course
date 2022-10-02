@@ -35,6 +35,7 @@ urlpatterns = [
     path('hello/', include('hello.urls')),
     path('polls/', include('polls.urls')),
     path('admin/', admin.site.urls),
+    re_path(r'^oauth/', include('social_django.urls', namespace='social')),
 ]
 
 # Serve the static HTML
