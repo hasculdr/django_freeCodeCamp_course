@@ -3,11 +3,14 @@ from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.urls import reverse_lazy
 from django.http import HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.humanize.templatetags.humanize import naturaltime
 
 from ads.models import Ad, Comment, Fav
 from ads.forms import CreateForm, CommentForm
 from ads.owner import OwnerListView, OwnerDetailView
 from ads.owner import OwnerCreateView, OwnerUpdateView, OwnerDeleteView
+
+from django.db.models import Q
 
 # csrf exemption in class based views
 # https://stackoverflow.com/questions/16458166/how-to-disable-djangos-csrf-validation
@@ -23,14 +26,31 @@ class AdListView(OwnerListView):
     # template_name = "ads/ad_list.html"
 
     def get(self, request):
-        ad_list = Ad.objects.all()
+        search_val = request.GET.get('search', False)
+        if search_val:
+            # поиск только по заголовкам
+            # objects = Ad.objects.filter(title__contains=search_val)
+            # поиск по нескольким полям
+            # __icontains для регистрозависимого поиска,
+            # только по Char/TextField
+            query = Q(title__icontains=search_val)
+            query.add(Q(text__icontains=search_val), Q.OR)
+            ad_list = Ad.objects.filter(query)
+        else:
+            ad_list = Ad.objects.all()
+        for elem in ad_list:
+            elem.natural_updated = naturaltime(elem.updated_at)
         favorites = list()
         if request.user.is_authenticated:
             # rows = [{'id': 2}, {'id': 4} ... ]  (A list of rows)
             rows = request.user.favorite_ads.values('id')
             # favorites = [2, 4, ...] using list comprehension
             favorites = [row['id'] for row in rows]
-        ctx = {'ad_list': ad_list, 'favorites': favorites}
+        ctx = {
+            'ad_list': ad_list,
+            'favorites': favorites,
+            'search': search_val
+        }
         return render(request, self.template_name, ctx)
 
 

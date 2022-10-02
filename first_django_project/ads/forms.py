@@ -29,7 +29,7 @@ class CreateForm(forms.ModelForm):
             return
         if len(pic) > self.max_upload_limit:
             self.add_error('picture', "File must be < "+self.max_upload_limit_text+" bytes")
-            
+
     # Convert uploaded File object to a picture
     def save(self, commit=True):
         instance = super(CreateForm, self).save(commit=False)
