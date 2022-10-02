@@ -56,13 +56,17 @@ class AdListView(OwnerListView):
 
 class AdDetailView(OwnerDetailView):
     model = Ad
-    template_name = 'ads/ad_detail.html'
+    template_name = 'ads/detail.html'
 
     def get(self, request, pk):
         x = Ad.objects.get(id=pk)
         comments = Comment.objects.filter(ad=x).order_by('-updated_at')
         comment_form = CommentForm()
-        context = {'ad': x, 'comments': comments, 'comment_form': comment_form}
+        context = {
+            'ad': x,
+            'comments': comments,
+            'comment_form': comment_form,
+        }
         return render(request, self.template_name, context)
 
 
