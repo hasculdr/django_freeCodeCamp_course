@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MinLengthValidator
 from django.conf import settings
+from taggit.managers import TaggableManager
 
 
 class Ad(models.Model):
@@ -22,6 +23,8 @@ class Ad(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    tags = TaggableManager(blank=True)
 
     # Shows up in the admin list
     def __str__(self):

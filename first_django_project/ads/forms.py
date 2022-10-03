@@ -5,6 +5,7 @@ from ads.humanize import naturalsize
 from django.core.exceptions import ValidationError
 from django.core import validators
 
+
 # Create the form class.
 class CreateForm(forms.ModelForm):
     max_upload_limit = 2 * 1024 * 1024
@@ -19,7 +20,7 @@ class CreateForm(forms.ModelForm):
     # Hint: this will need to be changed for use in the ads application :)
     class Meta:
         model = Ad
-        fields = ['title', 'text', 'price', 'picture']  # Picture is manual
+        fields = ['title', 'text', 'price', 'picture', 'tags']  # Picture is manual
 
     # Validate the size of the picture
     def clean(self):
@@ -43,6 +44,7 @@ class CreateForm(forms.ModelForm):
 
         if commit:
             instance.save()
+            self.save_m2m()
 
         return instance
 

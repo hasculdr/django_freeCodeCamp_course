@@ -35,6 +35,7 @@ class AdListView(OwnerListView):
             # только по Char/TextField
             query = Q(title__icontains=search_val)
             query.add(Q(text__icontains=search_val), Q.OR)
+            query.add(Q(tags__name__in=[search_val]), Q.OR)
             ad_list = Ad.objects.filter(query)
         else:
             ad_list = Ad.objects.all()
@@ -86,6 +87,7 @@ class AdCreateView(LoginRequiredMixin, View):
             pic = form.save(commit=False)
             pic.owner = self.request.user
             pic.save()
+            form.save_m2m()
             return redirect(self.success_url)
         else:
             context = {'form': form}
@@ -104,9 +106,10 @@ class AdUpdateView(LoginRequiredMixin, View):
 
     def post(self, request, pk):
         pic = get_object_or_404(Ad, id=pk, owner=self.request.user)
-        form = CreateForm(request.POST, request.FILES or None, instance=pic)
+        form = CreateForm(request.POST, request.FILES or None, instance=pic, commit=False)
         if form.is_valid():
-            form.save()
+            pic.save()
+            form.save_m2m()
             return redirect(self.success_url)
         else:
             context = {'form': form}

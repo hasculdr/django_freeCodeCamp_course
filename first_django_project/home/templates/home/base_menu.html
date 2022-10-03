@@ -11,6 +11,16 @@
       {% url 'ads' as ads %}
       <li {% if request.get_full_path == ads %}class="active"{% endif %}>
           <a href="{% url 'ads:all' %}">Ads</a></li>
+      {% url 'cats' as cats %}
+      <li {% if request.get_full_path == cats %}class="active"{% endif %}>
+          <a href="{% url 'cats:cats_page' %}">Cats</a></li>
+      {% url 'autos' as autos %}
+      <li {% if request.get_full_path == cats %}class="active"{% endif %}>
+          <a href="{% url 'autos:main_page' %}">Autos</a></li>
+      {% url 'polls' as polls %}
+      <li {% if request.get_full_path == polls %}class="active"{% endif %}>
+          <a href="{% url 'polls:index' %}">Polls</a></li>
+        
     </ul>
     <ul class="nav navbar-nav navbar-right">
         {% if user.is_authenticated %}
